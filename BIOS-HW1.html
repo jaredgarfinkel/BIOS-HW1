@@ -411,9 +411,9 @@ library(dplyr)</code></pre>
 <pre class="r"><code>solution1a &lt;- tableby(Group ~ Age + Gender + Race + HTN + T2DM + Depression + Smokes, 
                       data = table1, control = my_controls)</code></pre>
 <p>This is a solution.</p>
-<pre class="r"><code>summary(solution1a, title = &quot;Solution 1a&quot;, labelTranslations = my_labels,text = TRUE)</code></pre>
+<pre class="r"><code>summary(solution1a, title = &quot;Demographics and Co-Morbidities&quot;, labelTranslations = my_labels,text = TRUE)</code></pre>
 <pre><code>## 
-## Table: Solution 1a
+## Table: Demographics and Co-Morbidities
 ## 
 ## |                    |   Intervention (N=36)   |     Control (N=36)      |
 ## |:-------------------|:-----------------------:|:-----------------------:|
@@ -439,6 +439,75 @@ library(dplyr)</code></pre>
 ## |Smoker              |                         |                         |
 ## |-  Yes              |       31 (86.1%)        |       31 (86.1%)        |
 ## |-  No               |        5 (13.9%)        |        5 (13.9%)        |</code></pre>
+<div id="section-1b" class="section level2">
+<h2>Section 1b</h2>
+<p>This is a solution for Section 1b.</p>
+<p>Start with the labels.</p>
+<pre class="r"><code>my_labels2 &lt;- list(PRE = &quot;Systolic Blood Pressure (mm Hg)&quot;, POST = &quot; &quot;,
+                   PRE.1 = &quot;Diastolic Blood Pressure (mm Hg)&quot;, POST.1 = &quot; &quot;,
+                   PRE.2 = &quot;Body Mass Index&quot;, POST.2 = &quot; &quot;,
+                   PRE.3 = &quot;HDL Cholesterol&quot;, POST.3 = &quot; &quot;,
+                   PRE.4 = &quot;LDL Cholesterol&quot;, POST.4 = &quot; &quot;,
+                   PRE.5 = &quot;Blood Glucose (mmol/L)&quot;, POST.5 = &quot; &quot;)</code></pre>
+<pre class="r"><code>table2 &lt;- exercise %&gt;%
+  mutate(Group = factor(Group, labels = c(&quot;Intervention&quot;, &quot;Control&quot;)))</code></pre>
+<p>Clean the output.</p>
+<pre class="r"><code>my_controls2 &lt;- tableby.control(
+               total = FALSE,
+               test = FALSE,  # No test p-values yet
+               numeric.stats = c(&quot;meansd&quot;, &quot;medianq1q3&quot;),
+               cat.stats = c(&quot;countpct&quot;),
+               stats.labels = list(
+               meansd = &quot;Mean (SD)&quot;,
+               medianq1q3 = &quot;Median (Q1, Q3)&quot;,
+               countpct = &quot;N (%)&quot;))</code></pre>
+<p>Use only the variables we are looking at.</p>
+<pre class="r"><code>solution2a &lt;- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + PRE.2 + POST.2 + PRE.3 + POST.3 + PRE.4 + POST.4 + PRE.5 + POST.5,
+                  data = table2, control = my_controls2)</code></pre>
+<p>Make the table.</p>
+<pre class="r"><code>summary(solution2a, title=&quot;Metabolic Parameters&quot;, labelTranslations = my_labels2, text=TRUE)</code></pre>
+<pre><code>## 
+## Table: Metabolic Parameters
+## 
+## |                                 |    Intervention (N=36)     |       Control (N=36)       |
+## |:--------------------------------|:--------------------------:|:--------------------------:|
+## |Systolic Blood Pressure (mm Hg)  |                            |                            |
+## |-  Mean (SD)                     |      133.472 (15.938)      |      133.639 (15.108)      |
+## |-  Median (Q1, Q3)               | 131.000 (122.500, 143.500) | 134.000 (121.500, 144.000) |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |      130.139 (14.345)      |      125.056 (15.444)      |
+## |-  Median (Q1, Q3)               | 127.500 (120.000, 140.000) | 124.000 (116.750, 135.000) |
+## |Diastolic Blood Pressure (mm Hg) |                            |                            |
+## |-  Mean (SD)                     |       77.139 (9.663)       |       75.444 (9.098)       |
+## |-  Median (Q1, Q3)               |  76.000 (68.750, 85.000)   |  74.500 (69.000, 81.000)   |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |       75.694 (7.543)       |      74.583 (12.367)       |
+## |-  Median (Q1, Q3)               |  76.500 (69.000, 82.000)   |  74.000 (65.000, 80.500)   |
+## |Body Mass Index                  |                            |                            |
+## |-  Mean (SD)                     |       34.228 (6.164)       |       31.967 (6.578)       |
+## |-  Median (Q1, Q3)               |  33.400 (29.600, 37.575)   |  29.250 (27.375, 34.100)   |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |       34.511 (5.965)       |       31.206 (6.133)       |
+## |-  Median (Q1, Q3)               |  33.050 (30.425, 37.550)   |  29.150 (26.800, 32.875)   |
+## |HDL Cholesterol                  |                            |                            |
+## |-  Mean (SD)                     |      48.333 (13.701)       |      50.167 (11.850)       |
+## |-  Median (Q1, Q3)               |  43.500 (39.000, 54.250)   |  47.500 (40.000, 60.000)   |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |      45.194 (10.783)       |      50.167 (13.068)       |
+## |-  Median (Q1, Q3)               |  43.500 (38.000, 52.000)   |  48.500 (43.000, 60.250)   |
+## |LDL Cholesterol                  |                            |                            |
+## |-  Mean (SD)                     |      99.833 (29.055)       |      102.944 (33.839)      |
+## |-  Median (Q1, Q3)               | 104.000 (88.250, 112.250)  | 109.000 (75.250, 124.500)  |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |      93.611 (27.469)       |      100.500 (30.387)      |
+## |-  Median (Q1, Q3)               |  96.500 (77.500, 110.250)  |  95.000 (76.500, 120.500)  |
+## |Blood Glucose (mmol/L)           |                            |                            |
+## |-  Mean (SD)                     |      128.972 (73.862)      |      116.639 (74.910)      |
+## |-  Median (Q1, Q3)               |  98.000 (81.750, 139.000)  |  94.000 (83.750, 116.500)  |
+## |                                 |                            |                            |
+## |-  Mean (SD)                     |      126.611 (63.955)      |      107.139 (38.646)      |
+## |-  Median (Q1, Q3)               | 106.500 (85.000, 145.750)  |  95.500 (85.250, 129.000)  |</code></pre>
+</div>
 
 
 

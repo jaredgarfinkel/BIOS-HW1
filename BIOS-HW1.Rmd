@@ -29,7 +29,7 @@ exercise <- read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\
 
 Change the labels.
 
-```{r age}
+```{r labels}
 
 my_labels <- list(Age = "Age (yrs)", Gender = "Gender", Race = "Race", HTN = "Hypertensive", T2DM = "Type 2 Diabetes", Depression = "Depression", Smokes = "Smoker")
 ```
@@ -72,6 +72,56 @@ solution1a <- tableby(Group ~ Age + Gender + Race + HTN + T2DM + Depression + Sm
 This is a solution.
 
 ```{r output 1a}
-summary(solution1a, title = "Solution 1a", labelTranslations = my_labels,text = TRUE)
+summary(solution1a, title = "Demographics and Co-Morbidities", labelTranslations = my_labels,text = TRUE)
 
 ```
+
+## Section 1b
+
+This is a solution for Section 1b.
+
+Start with the labels.
+
+```{r labels2}
+
+my_labels2 <- list(PRE = "Systolic Blood Pressure (mm Hg)", POST = " ",
+                   PRE.1 = "Diastolic Blood Pressure (mm Hg)", POST.1 = " ",
+                   PRE.2 = "Body Mass Index", POST.2 = " ",
+                   PRE.3 = "HDL Cholesterol", POST.3 = " ",
+                   PRE.4 = "LDL Cholesterol", POST.4 = " ",
+                   PRE.5 = "Blood Glucose (mmol/L)", POST.5 = " ")
+```
+
+
+```{r categories2}
+table2 <- exercise %>%
+  mutate(Group = factor(Group, labels = c("Intervention", "Control")))
+```
+
+Clean the output.
+
+```{r controls2}
+my_controls2 <- tableby.control(
+               total = FALSE,
+               test = FALSE,  # No test p-values yet
+               numeric.stats = c("meansd", "medianq1q3"),
+               cat.stats = c("countpct"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               countpct = "N (%)"))
+```
+
+Use only the variables we are looking at.
+
+```{r table2}
+solution2a <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + PRE.2 + POST.2 + PRE.3 + POST.3 + PRE.4 + POST.4 + PRE.5 + POST.5,
+                  data = table2, control = my_controls2)
+```
+
+Make the table.
+
+```{r solution2a}
+summary(solution2a, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
+```
+

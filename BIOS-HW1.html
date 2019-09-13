@@ -510,25 +510,71 @@ library(knitr)</code></pre>
 ## |                                 |                            |                            |
 ## |-  Mean (SD)                     |      126.611 (63.955)      |      107.139 (38.646)      |
 ## |-  Median (Q1, Q3)               | 106.500 (85.000, 145.750)  |  95.500 (85.250, 129.000)  |</code></pre>
-<p>Create a dataframe to pull data for a table.</p>
-<pre class="r"><code>mp_df &lt;- tibble(
-  Sys_u = mean(pull(table2,PRE)),
-  Sys_m = median(pull(table2,PRE)),
-  Sys_sd = sd(pull(table2,PRE)),
-  Sys_iqr = iqr(pull(table2,PRE)),
-  Sys_u2 = mean(pull(table2,POST)),
-  Sys_m2 = median(pull(table2,POST)),
-  Sys_sd2 = sd(pull(table2,POST)),
-  Sys_iqr2 = iqr(pull(table2,POST))
+<p>Create a dataframe that splits data by factor.</p>
+<pre class="r"><code># exp &lt;- factor(table2$Group)
+
+df_good &lt;- exercise %&gt;% group_by(Group)
+
+df_good %&gt;% summarize(
+  pre = mean(PRE),
+  post = mean(POST),
+  pre.1 = mean(PRE.1),
+  post.1 = mean(POST.1),
+  pre.2 = mean(PRE.2),
+  post.2 = mean(POST.2),
+  pre.3 = mean(PRE.3),
+  post.3 = mean(POST.3),
+  pre.4 = mean(PRE.4),
+  post.4 = mean(POST.4),
+  pre.5 = mean(PRE.5),
+  post.5 = mean(POST.5),
 )</code></pre>
-<p>Create a dataframe to pull labels for rows.</p>
-<pre class="r"><code>kable(solution1b, caption = &quot;Metabolic Parameters&quot;)</code></pre>
-<ul>
-<li><div class="line-block">Intervention | | Control | |</div></li>
-<li><div class="line-block">———— | ——- | ——- | — |</div></li>
-<li><div class="line-block">Baseline | 6-months | Baseline | 6-months</div>
-Systolic Blood Pressure (mm Hg) | 133.56 +/- 15.42 | 127.6+/- 15.02</li>
-</ul>
+<pre><code>## # A tibble: 2 x 13
+##   Group   pre  post pre.1 post.1 pre.2 post.2 pre.3 post.3 pre.4 post.4
+##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1     0  133.  130.  77.1   75.7  34.2   34.5  48.3   45.2  99.8   93.6
+## 2     1  134.  125.  75.4   74.6  32.0   31.2  50.2   50.2 103.   100. 
+## # ... with 2 more variables: pre.5 &lt;dbl&gt;, post.5 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>mp_df &lt;- df_good %&gt;% tibble(
+  Sys_u = mean(PRE), 
+  Sys_sd = sd(PRE),
+  Sys_u2 = mean(POST), 
+  Sys_sd2 = sd(POST)
+)</code></pre>
+<table>
+<colgroup>
+<col width="9%"></col>
+<col width="37%"></col>
+<col width="21%"></col>
+<col width="21%"></col>
+<col width="9%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>—</th>
+<th>Intervention</th>
+<th></th>
+<th>Control</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>—</td>
+<td>Baseline</td>
+<td>6-months</td>
+<td>Baseline</td>
+<td>6-months</td>
+</tr>
+<tr class="even">
+<td>Systolic Blood Pressure (mm Hg)</td>
+<td>133.56 +/- 15.42</td>
+<td>133.56+/- 15.42</td>
+<td>127.6 +/- 15.02</td>
+<td>127.6+/- 15.02</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

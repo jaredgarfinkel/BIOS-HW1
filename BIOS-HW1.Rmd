@@ -128,28 +128,42 @@ Make the table.
 summary(solution1b, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
 ```
 
-Create a dataframe to pull data for a table.
+Create a dataframe that splits data by factor.
 
-```{r df}
-mp_df <- tibble(
-  Sys_u = mean(pull(table2,PRE)),
-  Sys_m = median(pull(table2,PRE)),
-  Sys_sd = sd(pull(table2,PRE)),
-  Sys_iqr = iqr(pull(table2,PRE)),
-  Sys_u2 = mean(pull(table2,POST)),
-  Sys_m2 = median(pull(table2,POST)),
-  Sys_sd2 = sd(pull(table2,POST)),
-  Sys_iqr2 = iqr(pull(table2,POST))
+```{r split data by factor}
+
+# exp <- factor(table2$Group)
+
+df_good <- exercise %>% group_by(Group)
+
+df_good %>% summarize(
+  pre = mean(PRE),
+  post = mean(POST),
+  pre.1 = mean(PRE.1),
+  post.1 = mean(POST.1),
+  pre.2 = mean(PRE.2),
+  post.2 = mean(POST.2),
+  pre.3 = mean(PRE.3),
+  post.3 = mean(POST.3),
+  pre.4 = mean(PRE.4),
+  post.4 = mean(POST.4),
+  pre.5 = mean(PRE.5),
+  post.5 = mean(POST.5),
 )
 ```
 
-Create a dataframe to pull labels for rows.
 
-```{r results = 'asis', eval = FALSE}
-kable(solution1b, caption = "Metabolic Parameters")
+
+```{r df, eval = FALSE}
+mp_df <- df_good %>% tibble(
+  Sys_u = mean(PRE), 
+  Sys_sd = sd(PRE),
+  Sys_u2 = mean(POST), 
+  Sys_sd2 = sd(POST)
+)
 ```
 
-- | Intervention |         | Control |     |    
-- | ------------ | ------- | ------- | --- |
-- | Baseline | 6-months | Baseline | 6-months
-Systolic Blood Pressure (mm Hg) | `r round(pull(mp_df,Sys_u), digits = 2)` +/- `r round(pull(mp_df,Sys_sd), digits = 2)` | `r round(pull(mp_df,Sys_u2), digits = 2)`+/- `r round(pull(mp_df,Sys_sd2), digits = 2)`
+--- | Intervention |         | Control |     |    
+--- | ------------ | ------- | ------- | --- |
+--- | Baseline | 6-months | Baseline | 6-months
+Systolic Blood Pressure (mm Hg) | `r round(mean(df_good$PRE), digits = 2)` +/- `r round(sd(df_good$PRE), digits = 2)` | `r round(mean(df_good$PRE), digits = 2)`+/- `r round(sd(df_good$PRE), digits = 2)` | `r round(mean(df_good$POST), digits = 2)` +/- `r round(sd(df_good$POST), digits = 2)` | `r round(mean(df_good$POST), digits = 2)`+/- `r round(sd(df_good$POST), digits = 2)`

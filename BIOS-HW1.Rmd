@@ -1,0 +1,77 @@
+---
+title: "BIOS_HW#1"
+author: "Jared Garfinkel"
+date: "9/13/2019"
+output: html_document
+---
+
+#Problem 1
+
+This is the solution for Problem 1
+
+```{r load libraries}
+library(tidyverse)
+library(arsenal)
+library(dplyr)
+```
+
+##Section a
+
+This is a solution for section a.
+
+There is a top row of text that can be ignored for the purposes of creating a table.
+
+```{r import doc}
+
+exercise <- read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\\BIOS-HW1\\Exercise.csv", skip = 1)
+
+```
+
+Change the labels.
+
+```{r age}
+
+my_labels <- list(Age = "Age (yrs)", Gender = "Gender", Race = "Race", HTN = "Hypertensive", T2DM = "Type 2 Diabetes", Depression = "Depression", Smokes = "Smoker")
+```
+
+Clean the output.
+
+```{r clean output}
+my_controls <- tableby.control(
+               total = FALSE,
+               test = FALSE,  # No test p-values yet
+               numeric.stats = c("meansd", "medianq1q3"),
+               cat.stats = c("countpct"),
+               stats.labels = list(
+               meansd = "Mean (SD)",
+               medianq1q3 = "Median (Q1, Q3)",
+               countpct = "N (%)"))
+```
+
+I found a function called mutate from recitation that is useful for showing categories. No idea why it works.
+
+```{r categories}
+
+table1 <- exercise %>%
+  mutate(Group = factor(Group, labels = c("Intervention","Control"))) %>%
+  mutate(Gender = factor(Gender, labels = c("Male", "Female"))) %>%
+  mutate(Race = factor(Race, labels = c("African American", "Hispanic", "Caucasian"))) %>%
+  mutate(HTN = factor(HTN, labels = c("Yes","No"))) %>%
+  mutate(T2DM = factor(T2DM, labels = c("Yes", "No"))) %>%
+  mutate(Depression = factor(Depression, labels = c("Yes","No"))) %>%
+  mutate(Smokes = factor(Smokes,labels = c("Yes","No")))
+```
+
+This is a first table.
+
+```{r solution 1a}
+solution1a <- tableby(Group ~ Age + Gender + Race + HTN + T2DM + Depression + Smokes, 
+                      data = table1, control = my_controls)
+```
+
+This is a solution.
+
+```{r output 1a}
+summary(solution1a, title = "Solution 1a", labelTranslations = my_labels,text = TRUE)
+
+```

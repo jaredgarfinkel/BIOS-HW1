@@ -13,6 +13,7 @@ This is the solution for Problem 1
 library(tidyverse)
 library(arsenal)
 library(dplyr)
+library(knitr)
 ```
 
 ##Section a
@@ -115,13 +116,40 @@ my_controls2 <- tableby.control(
 Use only the variables we are looking at.
 
 ```{r table2}
-solution2a <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + PRE.2 + POST.2 + PRE.3 + POST.3 + PRE.4 + POST.4 + PRE.5 + POST.5,
-                  data = table2, control = my_controls2)
+solution1b <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + 
+                        PRE.2 + POST.2 + PRE.3 + POST.3 + 
+                        PRE.4 + POST.4 + PRE.5 + POST.5,
+                      data = table2, control = my_controls2)
 ```
 
 Make the table.
 
 ```{r solution2a}
-summary(solution2a, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
+summary(solution1b, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
 ```
 
+Create a dataframe to pull data for a table.
+
+```{r df}
+mp_df <- tibble(
+  Sys_u = mean(pull(table2,PRE)),
+  Sys_m = median(pull(table2,PRE)),
+  Sys_sd = sd(pull(table2,PRE)),
+  Sys_iqr = iqr(pull(table2,PRE)),
+  Sys_u2 = mean(pull(table2,POST)),
+  Sys_m2 = median(pull(table2,POST)),
+  Sys_sd2 = sd(pull(table2,POST)),
+  Sys_iqr2 = iqr(pull(table2,POST))
+)
+```
+
+Create a dataframe to pull labels for rows.
+
+```{r results = 'asis', eval = FALSE}
+kable(solution1b, caption = "Metabolic Parameters")
+```
+
+- | Intervention |         | Control |     |    
+- | ------------ | ------- | ------- | --- |
+- | Baseline | 6-months | Baseline | 6-months
+Systolic Blood Pressure (mm Hg) | `r round(pull(mp_df,Sys_u), digits = 2)` +/- `r round(pull(mp_df,Sys_sd), digits = 2)` | `r round(pull(mp_df,Sys_u2), digits = 2)`+/- `r round(pull(mp_df,Sys_sd2), digits = 2)`

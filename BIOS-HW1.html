@@ -381,7 +381,8 @@ summary {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(arsenal)
-library(dplyr)</code></pre>
+library(dplyr)
+library(knitr)</code></pre>
 <p>##Section a</p>
 <p>This is a solution for section a.</p>
 <p>There is a top row of text that can be ignored for the purposes of creating a table.</p>
@@ -462,10 +463,12 @@ library(dplyr)</code></pre>
                medianq1q3 = &quot;Median (Q1, Q3)&quot;,
                countpct = &quot;N (%)&quot;))</code></pre>
 <p>Use only the variables we are looking at.</p>
-<pre class="r"><code>solution2a &lt;- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + PRE.2 + POST.2 + PRE.3 + POST.3 + PRE.4 + POST.4 + PRE.5 + POST.5,
-                  data = table2, control = my_controls2)</code></pre>
+<pre class="r"><code>solution1b &lt;- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + 
+                        PRE.2 + POST.2 + PRE.3 + POST.3 + 
+                        PRE.4 + POST.4 + PRE.5 + POST.5,
+                      data = table2, control = my_controls2)</code></pre>
 <p>Make the table.</p>
-<pre class="r"><code>summary(solution2a, title=&quot;Metabolic Parameters&quot;, labelTranslations = my_labels2, text=TRUE)</code></pre>
+<pre class="r"><code>summary(solution1b, title=&quot;Metabolic Parameters&quot;, labelTranslations = my_labels2, text=TRUE)</code></pre>
 <pre><code>## 
 ## Table: Metabolic Parameters
 ## 
@@ -507,6 +510,25 @@ library(dplyr)</code></pre>
 ## |                                 |                            |                            |
 ## |-  Mean (SD)                     |      126.611 (63.955)      |      107.139 (38.646)      |
 ## |-  Median (Q1, Q3)               | 106.500 (85.000, 145.750)  |  95.500 (85.250, 129.000)  |</code></pre>
+<p>Create a dataframe to pull data for a table.</p>
+<pre class="r"><code>mp_df &lt;- tibble(
+  Sys_u = mean(pull(table2,PRE)),
+  Sys_m = median(pull(table2,PRE)),
+  Sys_sd = sd(pull(table2,PRE)),
+  Sys_iqr = iqr(pull(table2,PRE)),
+  Sys_u2 = mean(pull(table2,POST)),
+  Sys_m2 = median(pull(table2,POST)),
+  Sys_sd2 = sd(pull(table2,POST)),
+  Sys_iqr2 = iqr(pull(table2,POST))
+)</code></pre>
+<p>Create a dataframe to pull labels for rows.</p>
+<pre class="r"><code>kable(solution1b, caption = &quot;Metabolic Parameters&quot;)</code></pre>
+<ul>
+<li><div class="line-block">Intervention | | Control | |</div></li>
+<li><div class="line-block">———— | ——- | ——- | — |</div></li>
+<li><div class="line-block">Baseline | 6-months | Baseline | 6-months</div>
+Systolic Blood Pressure (mm Hg) | 133.56 +/- 15.42 | 127.6+/- 15.02</li>
+</ul>
 </div>
 
 

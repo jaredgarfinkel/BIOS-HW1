@@ -467,7 +467,7 @@ library(knitr)</code></pre>
                         PRE.2 + POST.2 + PRE.3 + POST.3 + 
                         PRE.4 + POST.4 + PRE.5 + POST.5,
                       data = table2, control = my_controls2)</code></pre>
-<p>Make the table.</p>
+<p>Make a table.</p>
 <pre class="r"><code>summary(solution1b, title=&quot;Metabolic Parameters&quot;, labelTranslations = my_labels2, text=TRUE)</code></pre>
 <pre><code>## 
 ## Table: Metabolic Parameters
@@ -528,53 +528,35 @@ df_good %&gt;% summarize(
   post.4 = mean(POST.4),
   pre.5 = mean(PRE.5),
   post.5 = mean(POST.5),
-)</code></pre>
-<pre><code>## # A tibble: 2 x 13
-##   Group   pre  post pre.1 post.1 pre.2 post.2 pre.3 post.3 pre.4 post.4
-##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1     0  133.  130.  77.1   75.7  34.2   34.5  48.3   45.2  99.8   93.6
-## 2     1  134.  125.  75.4   74.6  32.0   31.2  50.2   50.2 103.   100. 
-## # ... with 2 more variables: pre.5 &lt;dbl&gt;, post.5 &lt;dbl&gt;</code></pre>
+) -&gt; df_use</code></pre>
 <pre class="r"><code>mp_df &lt;- df_good %&gt;% tibble(
   Sys_u = mean(PRE), 
   Sys_sd = sd(PRE),
   Sys_u2 = mean(POST), 
   Sys_sd2 = sd(POST)
 )</code></pre>
-<table>
-<colgroup>
-<col width="9%"></col>
-<col width="37%"></col>
-<col width="21%"></col>
-<col width="21%"></col>
-<col width="9%"></col>
-</colgroup>
-<thead>
-<tr class="header">
-<th>—</th>
-<th>Intervention</th>
-<th></th>
-<th>Control</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>—</td>
-<td>Baseline</td>
-<td>6-months</td>
-<td>Baseline</td>
-<td>6-months</td>
-</tr>
-<tr class="even">
-<td>Systolic Blood Pressure (mm Hg)</td>
-<td>133.56 +/- 15.42</td>
-<td>133.56+/- 15.42</td>
-<td>127.6 +/- 15.02</td>
-<td>127.6+/- 15.02</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>groupsys1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
+groupsys2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
+#groupdia1 &lt;- tableby(Group ~ PRE.1, data=table2, control = my_controls2)
+#groupdia2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
+#groupbmi1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
+#groupbmi2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
+#grouphdl1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
+#grouphdl2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
+#groupldl1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
+#groupldl2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
+#groupglu1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
+#groupglu2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)</code></pre>
+<pre class="r"><code>table1 &lt;- summary(groupsys1, title=&quot;Systolic Blood Pressure&quot;, labelTranslations = my_labels2, text=TRUE)
+table2 &lt;- summary(groupsys2, title=&quot;Systolic Blood Pressure 6-months&quot;, labelTranslations = my_labels2, text=TRUE)
+kable(list(table1, table2))</code></pre>
+<pre class="r"><code>new_df &lt;- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
+new_df1 &lt;- filter(new_df, Group == 1)
+new_df2 &lt;- filter(new_df, Group == 0)</code></pre>
+<pre class="r"><code>--- | Intervention |         | Control |     |    
+--- | ------------ | ------- | ------- | --- |
+--- | Baseline | 6-months | Baseline | 6-months
+Systolic Blood Pressure (mm Hg) | `r mean()` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)`</code></pre>
 </div>
 
 

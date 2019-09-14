@@ -276,3 +276,36 @@ df_good2 <- tibble(exercise %>%
   pre.5 = mean(PRE.5),
   post.5 = mean(POST.5)))
 summary(df_good2)
+exercise<-read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\\BIOS-HW1\\Exercise.csv", skip = 1)
+library(tidyverse)
+library(dplyr)
+library(arsenal)
+grouped_data2 <- exercise %>% group_by(Group, add = TRUE)
+summary(grouped_data2)
+grouped_data2 <- tibble(exercise %>%
+                          mutate(PRE = group_by(Group))
+)
+grouped_data2 <- exercise %>% 
+  group_by(Group)
+grouped_data2 %>% summarize(
+  pre = mean(pull(grouped_data2,PRE)),
+  pre1 = mean(PRE$'1'),
+  post = mean(PRE$'0'),
+  post1 = mean(POST$'1')
+)
+summary(pull(grouped_data,PRE)
+exercise$PRE
+?cbind
+grouped_data %>% tibble(
+  mutate(PRE = factor(PRE))
+)
+group1 <- tableby(Group ~ PRE, data=exercise)
+summary(group1)
+groupsys1 <- tableby(Group ~ PRE, data=exercise, control = my_controls2)
+
+
+  --- | Intervention |         | Control |     |    
+  --- | ------------ | ------- | ------- | --- |
+  --- | Baseline | 6-months | Baseline | 6-months
+Systolic Blood Pressure (mm Hg) | `r mean(groupsys1$'0')` +/- `r sd(groupsys1$'0')` | `r mean(groupsys1$'1')` +/- `r sd(groupsys1$'1')` | `r mean(groupsys2$'0')` +/- `r sd(groupsys2$'0')` | `r mean(groupsys2$'1')` +/- `r sd(groupsys2$'1')`
+?list

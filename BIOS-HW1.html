@@ -511,52 +511,75 @@ library(knitr)</code></pre>
 ## |-  Mean (SD)                     |      126.611 (63.955)      |      107.139 (38.646)      |
 ## |-  Median (Q1, Q3)               | 106.500 (85.000, 145.750)  |  95.500 (85.250, 129.000)  |</code></pre>
 <p>Create a dataframe that splits data by factor.</p>
-<pre class="r"><code># exp &lt;- factor(table2$Group)
-
-df_good &lt;- exercise %&gt;% group_by(Group)
-
-df_good %&gt;% summarize(
-  pre = mean(PRE),
-  post = mean(POST),
-  pre.1 = mean(PRE.1),
-  post.1 = mean(POST.1),
-  pre.2 = mean(PRE.2),
-  post.2 = mean(POST.2),
-  pre.3 = mean(PRE.3),
-  post.3 = mean(POST.3),
-  pre.4 = mean(PRE.4),
-  post.4 = mean(POST.4),
-  pre.5 = mean(PRE.5),
-  post.5 = mean(POST.5),
-) -&gt; df_use</code></pre>
-<pre class="r"><code>mp_df &lt;- df_good %&gt;% tibble(
-  Sys_u = mean(PRE), 
-  Sys_sd = sd(PRE),
-  Sys_u2 = mean(POST), 
-  Sys_sd2 = sd(POST)
-)</code></pre>
-<pre class="r"><code>groupsys1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
-groupsys2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupdia1 &lt;- tableby(Group ~ PRE.1, data=table2, control = my_controls2)
-#groupdia2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupbmi1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupbmi2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
-#grouphdl1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#grouphdl2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupldl1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupldl2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupglu1 &lt;- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupglu2 &lt;- tableby(Group ~ POST, data=table2, control = my_controls2)</code></pre>
-<pre class="r"><code>table1 &lt;- summary(groupsys1, title=&quot;Systolic Blood Pressure&quot;, labelTranslations = my_labels2, text=TRUE)
-table2 &lt;- summary(groupsys2, title=&quot;Systolic Blood Pressure 6-months&quot;, labelTranslations = my_labels2, text=TRUE)
-kable(list(table1, table2))</code></pre>
-<pre class="r"><code>new_df &lt;- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
-new_df1 &lt;- filter(new_df, Group == 1)
-new_df2 &lt;- filter(new_df, Group == 0)</code></pre>
-<pre class="r"><code>--- | Intervention |         | Control |     |    
---- | ------------ | ------- | ------- | --- |
---- | Baseline | 6-months | Baseline | 6-months
-Systolic Blood Pressure (mm Hg) | `r mean()` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)`</code></pre>
+<table>
+<colgroup>
+<col width="17%"></col>
+<col width="23%"></col>
+<col width="20%"></col>
+<col width="20%"></col>
+<col width="17%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>——</th>
+<th>Intervention</th>
+<th></th>
+<th>Control</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>——</td>
+<td>Baseline</td>
+<td>6-months</td>
+<td>Baseline</td>
+<td>6-months</td>
+</tr>
+<tr class="even">
+<td>Systolic Blood Pressure (mm Hg)</td>
+<td>133.64 +/- 15.11</td>
+<td>125.06 +/- 15.44</td>
+<td>133.47 +/- 15.94</td>
+<td>130.14 +/- 14.35</td>
+</tr>
+<tr class="odd">
+<td>——</td>
+<td>134 (121.5, 144)</td>
+<td>124 (116.75, 135)</td>
+<td>131 (122.5, 143.5)</td>
+<td>127.5 (120, 140)</td>
+</tr>
+<tr class="even">
+<td>Diastolic Blood Pressure (mm Hg)</td>
+<td>75.44 +/- 9.1</td>
+<td>74.58 +/- 12.37</td>
+<td>77.14 +/- 9.66</td>
+<td>75.69 +/- 7.54</td>
+</tr>
+<tr class="odd">
+<td>——</td>
+<td>74.5 (69, 81)</td>
+<td>74 (65, 80.5)</td>
+<td>76 (68.75, 85)</td>
+<td>76.5 (69, 82)</td>
+</tr>
+<tr class="even">
+<td>Body Mass Index</td>
+<td>31.97 +/- 6.58</td>
+<td>31.21 +/- 6.13</td>
+<td>34.23 +/- 6.16</td>
+<td>34.51 +/- 5.97</td>
+</tr>
+<tr class="odd">
+<td>——</td>
+<td>29.25 (27.375, 34.1)</td>
+<td>29.15 (26.8, 32.875)</td>
+<td>33.4 (29.6, 37.575)</td>
+<td>33.05 (30.425, 37.55)</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

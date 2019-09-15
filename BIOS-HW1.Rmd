@@ -131,7 +131,7 @@ summary(solution1b, title="Metabolic Parameters", labelTranslations = my_labels2
 
 Create a dataframe that splits data by factor.
 
-```{r split data by factor, eval=FALSE}
+```{r split data by factor, echo = FALSE, eval = FALSE}
 
 # exp <- factor(table2$Group)
 
@@ -150,10 +150,10 @@ df_good %>% summarize(
   post.4 = mean(POST.4),
   pre.5 = mean(PRE.5),
   post.5 = mean(POST.5),
-) -> df_use
+)
 ```
 
-```{r df, eval = FALSE}
+```{r df, echo = FALSE, eval = FALSE}
 mp_df <- df_good %>% tibble(
   Sys_u = mean(PRE), 
   Sys_sd = sd(PRE),
@@ -162,36 +162,39 @@ mp_df <- df_good %>% tibble(
 )
 ```
 
-```{r, eval=FALSE}
+```{r df1, echo = FALSE, eval = FALSE}
 groupsys1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
 groupsys2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupdia1 <- tableby(Group ~ PRE.1, data=table2, control = my_controls2)
-#groupdia2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupbmi1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupbmi2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
-#grouphdl1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#grouphdl2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupldl1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupldl2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
-#groupglu1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
-#groupglu2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
+groupdia1 <- tableby(Group ~ PRE.1, data=table2, control = my_controls2)
+groupdia2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
+groupbmi1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
+groupbmi2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
+grouphdl1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
+grouphdl2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
+groupldl1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
+groupldl2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
+groupglu1 <- tableby(Group ~ PRE, data=table2, control = my_controls2)
+groupglu2 <- tableby(Group ~ POST, data=table2, control = my_controls2)
 ```
 
-```{r, eval=FALSE}
+```{r df2, echo = FALSE, eval = FALSE}
 table1 <- summary(groupsys1, title="Systolic Blood Pressure", labelTranslations = my_labels2, text=TRUE)
 table2 <- summary(groupsys2, title="Systolic Blood Pressure 6-months", labelTranslations = my_labels2, text=TRUE)
 kable(list(table1, table2))
 ```
 
-```{r Pipes}
+```{r Pipes, echo = FALSE}
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
 ```
 
-```{r, eval=FALSE}
---- | Intervention |         | Control |     |    
---- | ------------ | ------- | ------- | --- |
---- | Baseline | 6-months | Baseline | 6-months
-Systolic Blood Pressure (mm Hg) | `r mean()` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)` | `r mean(groupsys1)` +/- `r sd(groupsys1)`
-```
+------ | Intervention |         | Control |     |    
+------ | -------- | ------- | ------- | ------ |
+------ | Baseline | 6-months | Baseline | 6-months
+Systolic Blood Pressure (mm Hg) | `r round(mean(pull(new_df1,PRE)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE)), digits = 2)` | `r round(mean(pull(new_df1,POST)), digits = 2)` +/- `r round(sd(pull(new_df1,POST)), digits = 2)` | `r round(mean(pull(new_df2,PRE)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE)), digits = 2)` | `r round(mean(pull(new_df2,POST)), digits = 2)` +/- `r round(sd(pull(new_df2,POST)), digits = 2)`
+------ | `r round(median(pull(new_df1,PRE)), digits = 2)` (`r q1q3(pull(new_df1,PRE))`) | `r round(median(pull(new_df1,POST)), digits=2)` (`r q1q3(pull(new_df1,POST))`) | `r round(median(pull(new_df2,PRE)), digits = 2)` (`r q1q3(pull(new_df2,PRE))`) | `r round(median(pull(new_df2,POST)), digits=2)` (`r q1q3(pull(new_df2,POST))`)
+Diastolic Blood Pressure (mm Hg) | `r round(mean(pull(new_df1,PRE.1)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.1)), digits = 2)` | `r round(mean(pull(new_df1,POST.1)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.1)), digits = 2)` | `r round(mean(pull(new_df2,PRE.1)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.1)), digits = 2)` | `r round(mean(pull(new_df2,POST.1)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.1)), digits = 2)`
+------ | `r round(median(pull(new_df1,PRE.1)), digits = 2)` (`r q1q3(pull(new_df1,PRE.1))`) | `r round(median(pull(new_df1,POST.1)), digits=2)` (`r q1q3(pull(new_df1,POST.1))`) | `r round(median(pull(new_df2,PRE.1)), digits = 2)` (`r q1q3(pull(new_df2,PRE.1))`) | `r round(median(pull(new_df2,POST.1)), digits=2)` (`r q1q3(pull(new_df2,POST.1))`)
+Body Mass Index | `r round(mean(pull(new_df1,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.2)), digits = 2)` | `r round(mean(pull(new_df1,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.2)), digits = 2)` | `r round(mean(pull(new_df2,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.2)), digits = 2)` | `r round(mean(pull(new_df2,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.2)), digits = 2)`
+------ | `r round(median(pull(new_df1,PRE.2)), digits = 2)` (`r q1q3(pull(new_df1,PRE.2))`) | `r round(median(pull(new_df1,POST.2)), digits=2)` (`r q1q3(pull(new_df1,POST.2))`) | `r round(median(pull(new_df2,PRE.2)), digits = 2)` (`r q1q3(pull(new_df2,PRE.2))`) | `r round(median(pull(new_df2,POST.2)), digits=2)` (`r q1q3(pull(new_df2,POST.2))`)

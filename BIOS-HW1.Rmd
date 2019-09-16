@@ -84,7 +84,7 @@ This is a solution for Section 1b.
 
 Start with the labels.
 
-```{r labels2}
+```{r labels2, echo = FALSE}
 
 my_labels2 <- list(PRE = "Systolic Blood Pressure (mm Hg)", POST = " ",
                    PRE.1 = "Diastolic Blood Pressure (mm Hg)", POST.1 = " ",
@@ -95,14 +95,14 @@ my_labels2 <- list(PRE = "Systolic Blood Pressure (mm Hg)", POST = " ",
 ```
 
 
-```{r categories2}
+```{r categories2, echo = FALSE}
 table2 <- exercise %>%
-  mutate(Group = factor(Group, labels = c("Intervention", "Control")))
+  mutate(Group = factor(Group, labels = c("Control", "Intervention")))
 ```
 
 Clean the output.
 
-```{r controls2}
+```{r controls2, echo = FALSE}
 my_controls2 <- tableby.control(
                total = FALSE,
                test = FALSE,  # No test p-values yet
@@ -116,7 +116,7 @@ my_controls2 <- tableby.control(
 
 Use only the variables we are looking at.
 
-```{r table2}
+```{r table2, echo = FALSE}
 solution1b <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + 
                         PRE.2 + POST.2 + PRE.3 + POST.3 + 
                         PRE.4 + POST.4 + PRE.5 + POST.5,
@@ -125,7 +125,7 @@ solution1b <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 +
 
 Make a table.
 
-```{r solution2a}
+```{r solution2a, echo = FALSE}
 summary(solution1b, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
 ```
 
@@ -189,6 +189,8 @@ new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
 ```
 
+: Changes in Metabolic Paramaters
+
 ------ | Intervention |         | Control |     |    
 ------ | -------- | ------- | ------- | ------ |
 ------ | Baseline | 6-months | Baseline | 6-months
@@ -198,9 +200,53 @@ Diastolic Blood Pressure (mm Hg) | `r round(mean(pull(new_df1,PRE.1)), digits = 
 ------ | `r round(median(pull(new_df1,PRE.1)), digits = 2)` (`r q1q3(pull(new_df1,PRE.1))`) | `r round(median(pull(new_df1,POST.1)), digits=2)` (`r q1q3(pull(new_df1,POST.1))`) | `r round(median(pull(new_df2,PRE.1)), digits = 2)` (`r q1q3(pull(new_df2,PRE.1))`) | `r round(median(pull(new_df2,POST.1)), digits=2)` (`r q1q3(pull(new_df2,POST.1))`)
 Body Mass Index | `r round(mean(pull(new_df1,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.2)), digits = 2)` | `r round(mean(pull(new_df1,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.2)), digits = 2)` | `r round(mean(pull(new_df2,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.2)), digits = 2)` | `r round(mean(pull(new_df2,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.2)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.2)), digits = 2)` (`r q1q3(pull(new_df1,PRE.2))`) | `r round(median(pull(new_df1,POST.2)), digits=2)` (`r q1q3(pull(new_df1,POST.2))`) | `r round(median(pull(new_df2,PRE.2)), digits = 2)` (`r q1q3(pull(new_df2,PRE.2))`) | `r round(median(pull(new_df2,POST.2)), digits=2)` (`r q1q3(pull(new_df2,POST.2))`)
-HDL Cholesterol | `r round(mean(pull(new_df1,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.3)), digits = 2)` | `r round(mean(pull(new_df1,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.3)), digits = 2)` | `r round(mean(pull(new_df2,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.3)), digits = 2)` | `r round(mean(pull(new_df2,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.3)), digits = 2)`
+HDL Cholesterol (mg/dL) | `r round(mean(pull(new_df1,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.3)), digits = 2)` | `r round(mean(pull(new_df1,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.3)), digits = 2)` | `r round(mean(pull(new_df2,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.3)), digits = 2)` | `r round(mean(pull(new_df2,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.3)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.3)), digits = 2)` (`r q1q3(pull(new_df1,PRE.3))`) | `r round(median(pull(new_df1,POST.3)), digits=2)` (`r q1q3(pull(new_df1,POST.3))`) | `r round(median(pull(new_df2,PRE.3)), digits = 2)` (`r q1q3(pull(new_df2,PRE.3))`) | `r round(median(pull(new_df2,POST.3)), digits=2)` (`r q1q3(pull(new_df2,POST.3))`)
-LDL Cholesterol | `r round(mean(pull(new_df1,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.4)), digits = 2)` | `r round(mean(pull(new_df1,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.4)), digits = 2)` | `r round(mean(pull(new_df2,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.4)), digits = 2)` | `r round(mean(pull(new_df2,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.4)), digits = 2)`
+LDL Cholesterol (mg/dL) | `r round(mean(pull(new_df1,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.4)), digits = 2)` | `r round(mean(pull(new_df1,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.4)), digits = 2)` | `r round(mean(pull(new_df2,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.4)), digits = 2)` | `r round(mean(pull(new_df2,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.4)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.4)), digits = 2)` (`r q1q3(pull(new_df1,PRE.4))`) | `r round(median(pull(new_df1,POST.4)), digits=2)` (`r q1q3(pull(new_df1,POST.4))`) | `r round(median(pull(new_df2,PRE.4)), digits = 2)` (`r q1q3(pull(new_df2,PRE.4))`) | `r round(median(pull(new_df2,POST.4)), digits=2)` (`r q1q3(pull(new_df2,POST.4))`)
 Blood Glucose Level (mmol/L) | `r round(mean(pull(new_df1,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.5)), digits = 2)` | `r round(mean(pull(new_df1,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.5)), digits = 2)` | `r round(mean(pull(new_df2,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.5)), digits = 2)` | `r round(mean(pull(new_df2,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.5)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.5)), digits = 2)` (`r q1q3(pull(new_df1,PRE.5))`) | `r round(median(pull(new_df1,POST.5)), digits=2)` (`r q1q3(pull(new_df1,POST.5))`) | `r round(median(pull(new_df2,PRE.5)), digits = 2)` (`r q1q3(pull(new_df2,PRE.5))`) | `r round(median(pull(new_df2,POST.5)), digits=2)` (`r q1q3(pull(new_df2,POST.5))`)
+
+# Problem 1b
+
+Two boxplots of intervention groups.
+
+```{r graphics}
+library(ggplot2)
+```
+
+```{r boxplot BMI, echo = FALSE, eval = FALSE}
+group <- factor(pull(exercise, Group), labels = c("Control", "Intervention"))
+ggplot(subset(exercise, Group == '1'), aes(y = PRE.2, fill = group)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("blue", "red"),
+                    labels = expression("Baseline", "6-months")) +
+  xlab("Intervention") +
+  ylab("Body Mass Index") +
+  theme(legend.position = "top", legend.title = element_blank())
+```
+
+```{r boxplot LDL, echo = FALSE, eval = FALSE}
+ggplot(exercise, select(pull(exercise, subset(PRE.4, Group == '1')), 
+                     pull(exercise, subset(POST.4, Group == '1')))) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("blue", "red"),
+                    labels = expression("Baseline", "6-months")) +
+  xlab("Intervention") +
+  ylab("LDL Cholesterol (mg/dL)") +
+  theme(legend.position = "top", legend.title = element_blank())
+```
+
+```{r boxplot2 BMI, echo = FALSE, eval = FALSE}
+par(mfrow=c(1,2))
+with(subset(exercise, Group == '1'), boxplot(PRE.2, xlab = "Baseline",
+                                             col = "blue", main = "Intervention"))
+with(subset(exercise, Group == '1'), boxplot(POST.2, xlab = "6-months",
+                                              col = "red", main = "Intervention"))
+```
+
+```{r boxplot3 BMI}
+boxplot(PRE.2~Group, data=exercise, col=c("blue","red"))
+
+```
+

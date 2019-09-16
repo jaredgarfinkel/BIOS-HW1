@@ -78,7 +78,7 @@ summary(solution1a, title = "Demographics and Co-Morbidities", labelTranslations
 
 ```
 
-## Section 1b
+## Section 1bi
 
 This is a solution for Section 1b.
 
@@ -125,7 +125,7 @@ solution1b <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 +
 
 Make a table.
 
-```{r solution2a, echo = FALSE}
+```{r solution2a, echo = FALSE, eval = FALSE}
 summary(solution1b, title="Metabolic Parameters", labelTranslations = my_labels2, text=TRUE)
 ```
 
@@ -183,7 +183,7 @@ table2 <- summary(groupsys2, title="Systolic Blood Pressure 6-months", labelTran
 kable(list(table1, table2))
 ```
 
-```{r Pipes, echo = FALSE}
+```{r Pipes}
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
@@ -207,7 +207,7 @@ LDL Cholesterol (mg/dL) | `r round(mean(pull(new_df1,PRE.4)), digits = 2)` +/- `
 Blood Glucose Level (mmol/L) | `r round(mean(pull(new_df1,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.5)), digits = 2)` | `r round(mean(pull(new_df1,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.5)), digits = 2)` | `r round(mean(pull(new_df2,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.5)), digits = 2)` | `r round(mean(pull(new_df2,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.5)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.5)), digits = 2)` (`r q1q3(pull(new_df1,PRE.5))`) | `r round(median(pull(new_df1,POST.5)), digits=2)` (`r q1q3(pull(new_df1,POST.5))`) | `r round(median(pull(new_df2,PRE.5)), digits = 2)` (`r q1q3(pull(new_df2,PRE.5))`) | `r round(median(pull(new_df2,POST.5)), digits=2)` (`r q1q3(pull(new_df2,POST.5))`)
 
-# Problem 1b
+# Problem 1bii
 
 Two boxplots of intervention groups.
 
@@ -216,8 +216,7 @@ library(ggplot2)
 ```
 
 ```{r boxplot BMI, echo = FALSE, eval = FALSE}
-group <- factor(pull(exercise, Group), labels = c("Control", "Intervention"))
-ggplot(subset(exercise, Group == '1'), aes(y = PRE.2, fill = group)) +
+ggplot(select(exercise,Group,PRE.2), aes(x = Group, y = PRE.2)) +
   geom_boxplot() +
   scale_fill_manual(values = c("blue", "red"),
                     labels = expression("Baseline", "6-months")) +
@@ -245,8 +244,88 @@ with(subset(exercise, Group == '1'), boxplot(POST.2, xlab = "6-months",
                                               col = "red", main = "Intervention"))
 ```
 
-```{r boxplot3 BMI}
-boxplot(PRE.2~Group, data=exercise, col=c("blue","red"))
+```{r boxplot3 BMI, echo = FALSE, eval = FALSE}
 
+BMI_boxplot <- select(filter(exercise, Group == 1), PRE.2, POST.2)
+
+my_labels3 <- list(PRE.2 = "Baseline", POST.2 = "6-months")
+
+boxplot(BMI_boxplot,
+        names = my_labels3, ylab = "Body Mass Index",
+        col = c("blue", "red"), main = "Intervention")
 ```
+
+```{r boxplot3 LDL, echo = FALSE, eval = FALSE}
+
+LDL_boxplot <- select(filter(exercise, Group == 1), PRE.4, POST.4)
+
+my_labels4 <- list(PRE.4 = "Baseline", POST.4 = "6-months")
+
+boxplot(LDL_boxplot,
+        names = my_labels4, ylab = "LDL Cholesterol (mg/dL)",
+        col = c("blue", "red"), main = "Intervention")
+```
+
+```{r boxplot4 BMI+LDL}
+#BMI_boxplot2 <- select(filter(exercise, Group == 0), PRE.2, POST.2)
+BMI_df1a <- pull(filter(exercise, Group == 1), PRE.2)
+BMI_df1b <- pull(filter(exercise, Group == 1), POST.2)
+BMI_df0a <- pull(filter(exercise, Group == 0), PRE.2)
+BMI_df0b <- pull(filter(exercise, Group == 0), POST.2)
+BMI_good <- cbind(BMI_df1a, BMI_df1b, BMI_df0a, BMI_df0b)
+BMI_labels <- list(BMI_df1a = "Baseline", BMI_df1b = "6-months", BMI_df0a = "Baseline", BMI_df0b = "6-months")
+
+LDL_df1a <- pull(filter(exercise, Group == 1), PRE.4)
+LDL_df1b <- pull(filter(exercise, Group == 1), POST.4)
+LDL_df0a <- pull(filter(exercise, Group == 0), PRE.4)
+LDL_df0b <- pull(filter(exercise, Group == 0), POST.4)
+LDL_good <- cbind(LDL_df1a, LDL_df1b, LDL_df0a, LDL_df0b)
+LDL_labels <- list(LDL_df1a = "Baseline", LDL_df1b = "6-months", LDL_df0a = "Baseline", LDL_df0b = "6-months")
+
+
+par(mfrow = c(2,1), mar=c(4,4,2,2))
+with(exercise,
+boxplot(BMI_good,
+        names = BMI_labels,
+        xlab = "",
+        ylab = "Body Mass Index", 
+        col = c("blue","red"), 
+        main = "Effects of exercise on BMI and LDL"))
+with(exercise,
+boxplot(LDL_good,
+        names = LDL_labels,
+        xlab = "Intervention vs. Control",
+        ylab = "LDL Cholesterol (mg/dL)", 
+        col = c("blue","red"), 
+        main = ""))
+```
+
+```{r unused, echo = FALSE, eval = FALSE}
+boxplot(BMI_boxplot2, 
+  xlab = "",
+  ylab = "",
+  col = c("blue","red"),
+  main = "")
+with(LDL_boxplot2,
+     boxplot(LDL_boxplot2, data = LDL_boxplot2,
+             xlab = "",
+             ylab = "LDL Cholesterol (mg/dL)", 
+             col = c("blue","red"),
+             main = ""))
+```
+
+## Section 1biii
+
+These findings indicate that among the intervention and control
+
+groups there were no changes in BMI and LDL. This might be because
+
+of the matching technique used, where participants and non-participants
+
+were matched by gender. A better method may be to match the participants
+
+and non-participants by smoking status, or other health-related
+
+indicators.
+
 

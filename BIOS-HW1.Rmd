@@ -57,7 +57,7 @@ I found a function called mutate from recitation that is useful for showing cate
 table1 <- exercise %>%
   mutate(Group = factor(Group, labels = c("Intervention","Control"))) %>%
   mutate(Gender = factor(Gender, labels = c("Male", "Female"))) %>%
-  mutate(Race = factor(Race, labels = c("African American", "Hispanic", "Caucasian"))) %>%
+  mutate(Race = factor(Race, labels = list('1' = "African American", '2' = "Hispanic", '3' = "African American"))) %>%
   mutate(HTN = factor(HTN, labels = c("Yes","No"))) %>%
   mutate(T2DM = factor(T2DM, labels = c("Yes", "No"))) %>%
   mutate(Depression = factor(Depression, labels = c("Yes","No"))) %>%
@@ -283,21 +283,18 @@ LDL_good <- cbind(LDL_df1a, LDL_df1b, LDL_df0a, LDL_df0b)
 LDL_labels <- list(LDL_df1a = "Baseline", LDL_df1b = "6-months", LDL_df0a = "Baseline", LDL_df0b = "6-months")
 
 
-par(mfrow = c(2,1), mar=c(4,4,2,2))
-with(exercise,
 boxplot(BMI_good,
         names = BMI_labels,
-        xlab = "",
+        xlab = "Intervention vs. Control",
         ylab = "Body Mass Index", 
         col = c("blue","red"), 
-        main = "Effects of exercise on BMI and LDL"))
-with(exercise,
+        main = "Effects of exercise on BMI")
 boxplot(LDL_good,
         names = LDL_labels,
         xlab = "Intervention vs. Control",
         ylab = "LDL Cholesterol (mg/dL)", 
         col = c("blue","red"), 
-        main = ""))
+        main = "Effects of exercise on LDL")
 ```
 
 ```{r unused, echo = FALSE, eval = FALSE}
@@ -328,4 +325,30 @@ and non-participants by smoking status, or other health-related
 
 indicators.
 
+# Problem 2
 
+The probability, P(X=x), that a triple test of a fetus with down syndrome is positive 
+
+is P(+|DS) = 0.60.
+
+The probability that a triple test of a fetus that does not have down syndrome is positive
+
+is P(+|NDS) = 0.05.
+
+The probability of a fetus being born with Down Syndrom is P(DS) = 0.001
+
+What is the probability that a fetus with a positive test result actually has Down Syndrome? P(DS|+) = ?
+
+P(DS|+) = $$P(+|DS)*P(DS) / (P(+|DS)*P(DS)+P(+|NDS)*P(NDS))$$
+
+= $$0.60*0.001 / (0.60*0.001+0.05*(1-0.001))$$
+
+= `r round(0.6*.001/sum(0.60*0.001,0.05*.999), digits = 4)`
+
+This is called a positive predictive value. Because the positive predictive value
+
+of this test is less than two percent, it is very unlikely to be accurate.
+
+This might mean doing the test two, three, or more times to achieve a reasonable 
+
+level of certainty regarding the presence of the condition.

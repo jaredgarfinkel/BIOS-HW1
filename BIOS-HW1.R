@@ -340,3 +340,16 @@ ggplot(low_birth_all, aes(x = race, y = bwt, fill = smoking)) +
   ylab("Birthweight (g)") +
   theme(legend.position = "top", legend.title = element_blank())
 boxplot(bwt~smoke, data=low_birth_all, col=c("blue","red"))
+?cbind
+?subset
+?select
+??select
+?boxplot
+?par
+?c
+?rownames
+?pin
+?par('pin')
+?prod
+?quotient
+?divide

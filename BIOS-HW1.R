@@ -309,3 +309,34 @@ groupsys1 <- tableby(Group ~ PRE, data=exercise, control = my_controls2)
   --- | Baseline | 6-months | Baseline | 6-months
 Systolic Blood Pressure (mm Hg) | `r mean(groupsys1$'0')` +/- `r sd(groupsys1$'0')` | `r mean(groupsys1$'1')` +/- `r sd(groupsys1$'1')` | `r mean(groupsys2$'0')` +/- `r sd(groupsys2$'0')` | `r mean(groupsys2$'1')` +/- `r sd(groupsys2$'1')`
 ?list
+?round
+medianq1q3(exercise$PRE)
+exercise<-read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\\BIOS-HW1\\Exercise.csv", skip = 1)
+?q1q3
+?q1q3
+?filter
+?filter
+?dplyr$filter
+?filter
+?difference
+?subtract
+?mar
+??mar
+?par
+?boxplot
+?mfrow
+?ggplot
+library(ggplot2)
+?ggplot
+?subset
+?group
+low_birth_all<-read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\Recitation\\20191011\\lowbwt_ALL.csv")
+low_birth_all$smoking <- ifelse(low_birth_all$smoke=="0","Non-Smoker","Smoker")
+ggplot(low_birth_all, aes(x = race, y = bwt, fill = smoking)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("blue", "red"),
+                    labels = expression("Non-Smokers", "Smokers")) +
+  xlab("") +
+  ylab("Birthweight (g)") +
+  theme(legend.position = "top", legend.title = element_blank())
+boxplot(bwt~smoke, data=low_birth_all, col=c("blue","red"))

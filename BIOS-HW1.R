@@ -353,3 +353,11 @@ boxplot(bwt~smoke, data=low_birth_all, col=c("blue","red"))
 ?prod
 ?quotient
 ?divide
+library(tidyverse)
+exercise <- read.csv(file = "./Exercise.csv", skip = 1)
+?colnames
+?cbind
+?col
+?list?
+?labels
+?labels

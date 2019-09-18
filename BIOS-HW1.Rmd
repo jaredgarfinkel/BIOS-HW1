@@ -183,10 +183,14 @@ table2 <- summary(groupsys2, title="Systolic Blood Pressure 6-months", labelTran
 kable(list(table1, table2))
 ```
 
-```{r Pipes}
+```{r new dataframes}
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
+new_col1 <- tibble(pull(new_df1,POST) - pull(new_df1,PRE), pull(new_df1,POST.1) - pull(new_df1,PRE.1), pull(new_df1, POST.2) - pull(new_df1,PRE.2), pull(new_df1,POST.3) - pull(new_df1, PRE.3), pull(new_df1,POST.4) - pull(new_df1,PRE.4), pull(new_df1,POST.5) - pull(new_df1,PRE.5))
+colnames(new_col1) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
+new_col2 <- tibble(pull(new_df2,POST) - pull(new_df2,PRE), pull(new_df2,POST.1) - pull(new_df2,PRE.1), pull(new_df2, POST.2) - pull(new_df2,PRE.2), pull(new_df2,POST.3) - pull(new_df2, PRE.3), pull(new_df2,POST.4) - pull(new_df2,PRE.4), pull(new_df2,POST.5) - pull(new_df2,PRE.5))
+colnames(new_col2) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
 ```
 
 : Changes in Metabolic Paramaters
@@ -196,16 +200,22 @@ new_df2 <- filter(new_df, Group == 0)
 ------ | Baseline | 6-months | Baseline | 6-months
 Systolic Blood Pressure (mm Hg) | `r round(mean(pull(new_df1,PRE)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE)), digits = 2)` | `r round(mean(pull(new_df1,POST)), digits = 2)` +/- `r round(sd(pull(new_df1,POST)), digits = 2)` | `r round(mean(pull(new_df2,PRE)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE)), digits = 2)` | `r round(mean(pull(new_df2,POST)), digits = 2)` +/- `r round(sd(pull(new_df2,POST)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE)), digits = 2)` (`r q1q3(pull(new_df1,PRE))`) | `r round(median(pull(new_df1,POST)), digits=2)` (`r q1q3(pull(new_df1,POST))`) | `r round(median(pull(new_df2,PRE)), digits = 2)` (`r q1q3(pull(new_df2,PRE))`) | `r round(median(pull(new_df2,POST)), digits=2)` (`r q1q3(pull(new_df2,POST))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, Sys_d)), digits = 2)` +/- `r round(sd(pull(new_col1,Sys_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,Sys_d)), digits = 2)` +/- `r round(sd(pull(new_col2, Sys_d)), digits=2)`
 Diastolic Blood Pressure (mm Hg) | `r round(mean(pull(new_df1,PRE.1)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.1)), digits = 2)` | `r round(mean(pull(new_df1,POST.1)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.1)), digits = 2)` | `r round(mean(pull(new_df2,PRE.1)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.1)), digits = 2)` | `r round(mean(pull(new_df2,POST.1)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.1)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.1)), digits = 2)` (`r q1q3(pull(new_df1,PRE.1))`) | `r round(median(pull(new_df1,POST.1)), digits=2)` (`r q1q3(pull(new_df1,POST.1))`) | `r round(median(pull(new_df2,PRE.1)), digits = 2)` (`r q1q3(pull(new_df2,PRE.1))`) | `r round(median(pull(new_df2,POST.1)), digits=2)` (`r q1q3(pull(new_df2,POST.1))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, Dia_d)), digits = 2)` +/- `r round(sd(pull(new_col1,Dia_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,Dia_d)), digits = 2)` +/- `r round(sd(pull(new_col2, Dia_d)), digits=2)`
 Body Mass Index | `r round(mean(pull(new_df1,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.2)), digits = 2)` | `r round(mean(pull(new_df1,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.2)), digits = 2)` | `r round(mean(pull(new_df2,PRE.2)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.2)), digits = 2)` | `r round(mean(pull(new_df2,POST.2)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.2)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.2)), digits = 2)` (`r q1q3(pull(new_df1,PRE.2))`) | `r round(median(pull(new_df1,POST.2)), digits=2)` (`r q1q3(pull(new_df1,POST.2))`) | `r round(median(pull(new_df2,PRE.2)), digits = 2)` (`r q1q3(pull(new_df2,PRE.2))`) | `r round(median(pull(new_df2,POST.2)), digits=2)` (`r q1q3(pull(new_df2,POST.2))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, BMI_d)), digits = 2)` +/- `r round(sd(pull(new_col1,BMI_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,BMI_d)), digits = 2)` +/- `r round(sd(pull(new_col2, BMI_d)), digits=2)`
 HDL Cholesterol (mg/dL) | `r round(mean(pull(new_df1,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.3)), digits = 2)` | `r round(mean(pull(new_df1,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.3)), digits = 2)` | `r round(mean(pull(new_df2,PRE.3)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.3)), digits = 2)` | `r round(mean(pull(new_df2,POST.3)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.3)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.3)), digits = 2)` (`r q1q3(pull(new_df1,PRE.3))`) | `r round(median(pull(new_df1,POST.3)), digits=2)` (`r q1q3(pull(new_df1,POST.3))`) | `r round(median(pull(new_df2,PRE.3)), digits = 2)` (`r q1q3(pull(new_df2,PRE.3))`) | `r round(median(pull(new_df2,POST.3)), digits=2)` (`r q1q3(pull(new_df2,POST.3))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, HDL_d)), digits = 2)` +/- `r round(sd(pull(new_col1,HDL_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,HDL_d)), digits = 2)` +/- `r round(sd(pull(new_col2, HDL_d)), digits=2)`
 LDL Cholesterol (mg/dL) | `r round(mean(pull(new_df1,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.4)), digits = 2)` | `r round(mean(pull(new_df1,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.4)), digits = 2)` | `r round(mean(pull(new_df2,PRE.4)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.4)), digits = 2)` | `r round(mean(pull(new_df2,POST.4)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.4)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.4)), digits = 2)` (`r q1q3(pull(new_df1,PRE.4))`) | `r round(median(pull(new_df1,POST.4)), digits=2)` (`r q1q3(pull(new_df1,POST.4))`) | `r round(median(pull(new_df2,PRE.4)), digits = 2)` (`r q1q3(pull(new_df2,PRE.4))`) | `r round(median(pull(new_df2,POST.4)), digits=2)` (`r q1q3(pull(new_df2,POST.4))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, LDL_d)), digits = 2)` +/- `r round(sd(pull(new_col1,LDL_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,LDL_d)), digits = 2)` +/- `r round(sd(pull(new_col2, LDL_d)), digits=2)`
 Blood Glucose Level (mmol/L) | `r round(mean(pull(new_df1,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df1,PRE.5)), digits = 2)` | `r round(mean(pull(new_df1,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df1,POST.5)), digits = 2)` | `r round(mean(pull(new_df2,PRE.5)), digits = 2)` +/- `r round(sd(pull(new_df2,PRE.5)), digits = 2)` | `r round(mean(pull(new_df2,POST.5)), digits = 2)` +/- `r round(sd(pull(new_df2,POST.5)), digits = 2)`
 ------ | `r round(median(pull(new_df1,PRE.5)), digits = 2)` (`r q1q3(pull(new_df1,PRE.5))`) | `r round(median(pull(new_df1,POST.5)), digits=2)` (`r q1q3(pull(new_df1,POST.5))`) | `r round(median(pull(new_df2,PRE.5)), digits = 2)` (`r q1q3(pull(new_df2,PRE.5))`) | `r round(median(pull(new_df2,POST.5)), digits=2)` (`r q1q3(pull(new_df2,POST.5))`)
+$\Delta$ | -------- | `r round(mean(pull(new_col1, Glu_d)), digits = 2)` +/- `r round(sd(pull(new_col1,Glu_d)), digits = 2)` | -------- | `r round(mean(pull(new_col2,Glu_d)), digits = 2)` +/- `r round(sd(pull(new_col2, Glu_d)), digits=2)`
 
 # Problem 1bii
 

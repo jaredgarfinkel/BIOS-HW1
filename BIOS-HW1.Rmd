@@ -6,22 +6,21 @@ tables: yes
 output: html_document
 ---
 
-#Problem 1
+# Biostatistical Methods I
 
-This is the solution for Problem 1
+## Problem 1
+
+### Section a
 
 ```{r load libraries}
 library(tidyverse)
 library(arsenal)
-library(dplyr)
 library(knitr)
 ```
 
-##Section a
+This is a solution for Problem 1, section a.
 
-This is a solution for section a.
-
-There is a top row of text that can be ignored for the purposes of creating a table.
+There is a top row of text that can be ignored for the purposes of creating a dataframe
 
 ```{r import doc}
 
@@ -50,7 +49,7 @@ my_controls <- tableby.control(
                countpct = "N (%)"))
 ```
 
-I found a function called mutate from recitation that is useful for showing categories. No idea why it works.
+I found a function called mutate from recitation that is useful for showing categories.
 
 ```{r categories}
 
@@ -84,7 +83,7 @@ This is a solution for Section 1b.
 
 Start with the labels.
 
-```{r labels2, echo = FALSE}
+```{r labels2, echo = FALSE, eval = FALSE}
 
 my_labels2 <- list(PRE = "Systolic Blood Pressure (mm Hg)", POST = " ",
                    PRE.1 = "Diastolic Blood Pressure (mm Hg)", POST.1 = " ",
@@ -95,14 +94,14 @@ my_labels2 <- list(PRE = "Systolic Blood Pressure (mm Hg)", POST = " ",
 ```
 
 
-```{r categories2, echo = FALSE}
+```{r categories2, echo = FALSE, eval = FALSE}
 table2 <- exercise %>%
   mutate(Group = factor(Group, labels = c("Control", "Intervention")))
 ```
 
 Clean the output.
 
-```{r controls2, echo = FALSE}
+```{r controls2, echo = FALSE, eval = FALSE}
 my_controls2 <- tableby.control(
                total = FALSE,
                test = FALSE,  # No test p-values yet
@@ -116,7 +115,7 @@ my_controls2 <- tableby.control(
 
 Use only the variables we are looking at.
 
-```{r table2, echo = FALSE}
+```{r table2, echo = FALSE, eval = FALSE}
 solution1b <- tableby(Group ~ PRE + POST + PRE.1 + POST.1 + 
                         PRE.2 + POST.2 + PRE.3 + POST.3 + 
                         PRE.4 + POST.4 + PRE.5 + POST.5,
@@ -187,9 +186,12 @@ kable(list(table1, table2))
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
+
 new_col1 <- tibble(pull(new_df1,POST) - pull(new_df1,PRE), pull(new_df1,POST.1) - pull(new_df1,PRE.1), pull(new_df1, POST.2) - pull(new_df1,PRE.2), pull(new_df1,POST.3) - pull(new_df1, PRE.3), pull(new_df1,POST.4) - pull(new_df1,PRE.4), pull(new_df1,POST.5) - pull(new_df1,PRE.5))
+
 colnames(new_col1) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
 new_col2 <- tibble(pull(new_df2,POST) - pull(new_df2,PRE), pull(new_df2,POST.1) - pull(new_df2,PRE.1), pull(new_df2, POST.2) - pull(new_df2,PRE.2), pull(new_df2,POST.3) - pull(new_df2, PRE.3), pull(new_df2,POST.4) - pull(new_df2,PRE.4), pull(new_df2,POST.5) - pull(new_df2,PRE.5))
+
 colnames(new_col2) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
 ```
 
@@ -337,7 +339,7 @@ indicators.
 
 # Problem 2
 
-The probability, P(X=x), that a triple test of a fetus with down syndrome is positive 
+The probability that a triple test of a fetus with down syndrome is positive 
 
 is P(+|DS) = 0.60.
 
@@ -353,7 +355,7 @@ P(DS|+) = $$P(+|DS)*P(DS) / (P(+|DS)*P(DS)+P(+|NDS)*P(NDS))$$
 
 = $$0.60*0.001 / (0.60*0.001+0.05*(1-0.001))$$
 
-= `r round(0.6*.001/sum(0.60*0.001,0.05*.999), digits = 4)`
+= `r round(0.6*.001/sum(0.60*0.001,0.05*.999), digits = 2)`
 
 This is called a positive predictive value. Because the positive predictive value
 
@@ -362,3 +364,33 @@ of this test is less than two percent, it is very unlikely to be accurate.
 This might mean doing the test two, three, or more times to achieve a reasonable 
 
 level of certainty regarding the presence of the condition.
+
+# Problem 3
+
+The media reported widely on a story about an article titled, "Habitual tea drinking modulates brain efficiency: evidence from brain connectivity evaluation" published in the journal, "Aging" based in Albany, NY.
+The study used neuroimaging from subjects split into two groups, "tea drinkers" and "non-tea drinkers" to analyze differences in brain structure.
+Reporting on the findings had some similarities. For instance, all the reporting in this analysis promoted the benefits of drinking tea for healthy aging and brain structure.
+Some of the media included descriptions of the methods, like the number of participants and the thing being studied.
+There were also references to brain structure in all the articles, which was the main topic of the paper.
+One reporter claimed the study took place over three years.
+
+I think the reporting was fairly measured across the board. This is reasonable considering it is an exploratory analysis.
+One thing that I found interesting is that the authors used leftward assymetry to measure the amount of aging on a brain.
+One of the main findings of the paper was that there was more leftward assymetry in the non-tea drinking group.
+The study was meant to add to the literature suggesting a correlation between drinking tea and healthier aging.
+I think the authors accomplished this even though the study size was small (n=36) and the results were mixed. 
+While functional brain networks were found to be more efficient among "tea drinkers", structural brain networks were not.
+
+### Sources:
+
+#### 1. https://www.mindbodygreen.com/articles/new-study-shows-regular-tea-drinkers-have-better-organized-brain-regions?fbclid=IwAR34Q8CrrYFvod61zpOolK803psG88POnQdeDGr8l_jY9CQN8CE-97_DVWQ
+
+#### 2. https://www.sciencedaily.com/releases/2019/09/190912100945.htm
+
+#### 3. https://www.businessinsider.sg/drinking-tea-could-save-your-brain-from-old-age-decline-nus-led-study-finds/
+
+#### 4. https://neurosciencenews.com/tea-drinking-brain-health-14889/
+
+#### 5. https://www.independent.co.uk/life-style/health-and-families/tea-brain-health-boost-ageing-green-black-oolong-a9107546.html
+
+#### 6. https://www.aging-us.com/article/102023/text

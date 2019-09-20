@@ -275,7 +275,7 @@ boxplot(LDL_boxplot,
         col = c("blue", "red"), main = "Intervention")
 ```
 
-```{r boxplot4 BMI+LDL}
+```{r boxplot4 BMI+LDL, echo = FALSE}
 #BMI_boxplot2 <- select(filter(exercise, Group == 0), PRE.2, POST.2)
 BMI_df1a <- pull(filter(exercise, Group == 1), PRE.2)
 BMI_df1b <- pull(filter(exercise, Group == 1), POST.2)
@@ -290,8 +290,9 @@ LDL_df0a <- pull(filter(exercise, Group == 0), PRE.4)
 LDL_df0b <- pull(filter(exercise, Group == 0), POST.4)
 LDL_good <- cbind(LDL_df1a, LDL_df1b, LDL_df0a, LDL_df0b)
 LDL_labels <- list(LDL_df1a = "Baseline", LDL_df1b = "6-months", LDL_df0a = "Baseline", LDL_df0b = "6-months")
+```
 
-
+```{r split a big chunk BMI+LDL}
 boxplot(BMI_good,
         names = BMI_labels,
         xlab = "Intervention vs. Control",
@@ -364,19 +365,11 @@ level of certainty regarding the presence of the condition.
 
 # Problem 3
 
-The media reported widely on a story about an article titled, "Habitual tea drinking modulates brain efficiency: evidence from brain connectivity evaluation" published in the journal, "Aging" based in Albany, NY.
-The study used neuroimaging from subjects split into two groups, "tea drinkers" and "non-tea drinkers" to analyze differences in brain structure.
-Reporting on the findings had some similarities. For instance, all the reporting in this analysis promoted the benefits of drinking tea for healthy aging and brain structure.
-Some of the media included descriptions of the methods, like the number of participants and the thing being studied.
-There were also references to brain structure in all the articles, which was the main topic of the paper.
-One reporter claimed the study took place over three years.
+The media reported widely on a story about an article titled, "Habitual tea drinking modulates brain efficiency: evidence from brain connectivity evaluation" published in the journal, "Aging" based in Albany, NY. The study used neuroimaging from subjects split into two groups, "tea drinkers" and "non-tea drinkers" to analyze differences in brain structure. Reporting on the findings had some similarities. For instance, all the reporting in this analysis promoted the benefits of drinking tea for healthy aging and brain structure. Some of the media included descriptions of the methods, like the number of participants and the thing being studied. There were also references to brain structure in all the articles, which was the main topic of the paper. One reporter claimed the study took place over three years.
 
-I think the reporting was fairly measured across the board. This is reasonable considering it is an exploratory analysis.
-One thing that I found interesting is that the authors used leftward assymetry to measure the amount of aging on a brain.
-One of the main findings of the paper was that there was more leftward assymetry in the non-tea drinking group.
-The study was meant to add to the literature suggesting a correlation between drinking tea and healthier aging.
-I think the authors accomplished this even though the study size was small (n=36) and the results were mixed. 
-While functional brain networks were found to be more efficient among "tea drinkers", structural brain networks were not.
+I think the reporting was fairly measured across the board. This is reasonable considering it is an exploratory analysis. One thing that I found interesting is that the authors used leftward assymetry to measure the amount of aging on a brain. One of the main findings of the paper was that there was more leftward assymetry in the non-tea drinking group. The study was meant to add to the literature suggesting a correlation between drinking tea and healthier aging. I think the authors accomplished this even though the study size was small (n=36) and the results were mixed. While functional brain networks were found to be more efficient among "tea drinkers", structural brain networks were not.
+
+While this is an early look at the brain structure of tea drinkers compared to non-tea drinkers, it follows a large amount of literature suggesting the health benefits of drinking tea. In fact, the authors of this study conducted a longitudinal study of tea drinkers in 2017 that had encouraging results. There have also been press releases from Harvard University promoting the health benefits of tea on several health factors. In the future, studies like this may determine the mechanisms by which tea can bolster health. Until then, I think it is safe to continue to drink tea, which may even impart a benefit.
 
 ### Sources:
 

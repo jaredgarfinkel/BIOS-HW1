@@ -427,13 +427,6 @@ summary {
 <p>Use only the variables we are looking at.</p>
 <p>Make a table.</p>
 <p>Create a dataframe that splits data by factor.</p>
-<pre class="r"><code>new_df &lt;- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
-new_df1 &lt;- filter(new_df, Group == 1)
-new_df2 &lt;- filter(new_df, Group == 0)
-new_col1 &lt;- tibble(pull(new_df1,POST) - pull(new_df1,PRE), pull(new_df1,POST.1) - pull(new_df1,PRE.1), pull(new_df1, POST.2) - pull(new_df1,PRE.2), pull(new_df1,POST.3) - pull(new_df1, PRE.3), pull(new_df1,POST.4) - pull(new_df1,PRE.4), pull(new_df1,POST.5) - pull(new_df1,PRE.5))
-colnames(new_col1) &lt;- c(&quot;Sys_d&quot;, &quot;Dia_d&quot;, &quot;BMI_d&quot;, &quot;HDL_d&quot;, &quot;LDL_d&quot;, &quot;Glu_d&quot;)
-new_col2 &lt;- tibble(pull(new_df2,POST) - pull(new_df2,PRE), pull(new_df2,POST.1) - pull(new_df2,PRE.1), pull(new_df2, POST.2) - pull(new_df2,PRE.2), pull(new_df2,POST.3) - pull(new_df2, PRE.3), pull(new_df2,POST.4) - pull(new_df2,PRE.4), pull(new_df2,POST.5) - pull(new_df2,PRE.5))
-colnames(new_col2) &lt;- c(&quot;Sys_d&quot;, &quot;Dia_d&quot;, &quot;BMI_d&quot;, &quot;HDL_d&quot;, &quot;LDL_d&quot;, &quot;Glu_d&quot;)</code></pre>
 <table>
 <caption>Changes in Metabolic Paramaters</caption>
 <colgroup>
@@ -593,24 +586,7 @@ colnames(new_col2) &lt;- c(&quot;Sys_d&quot;, &quot;Dia_d&quot;, &quot;BMI_d&quo
 <div id="problem-1bii" class="section level1">
 <h1>Problem 1bii</h1>
 <p>Two boxplots of intervention groups.</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre class="r"><code>#BMI_boxplot2 &lt;- select(filter(exercise, Group == 0), PRE.2, POST.2)
-BMI_df1a &lt;- pull(filter(exercise, Group == 1), PRE.2)
-BMI_df1b &lt;- pull(filter(exercise, Group == 1), POST.2)
-BMI_df0a &lt;- pull(filter(exercise, Group == 0), PRE.2)
-BMI_df0b &lt;- pull(filter(exercise, Group == 0), POST.2)
-BMI_good &lt;- cbind(BMI_df1a, BMI_df1b, BMI_df0a, BMI_df0b)
-BMI_labels &lt;- list(BMI_df1a = &quot;Baseline&quot;, BMI_df1b = &quot;6-months&quot;, BMI_df0a = &quot;Baseline&quot;, BMI_df0b = &quot;6-months&quot;)
-
-LDL_df1a &lt;- pull(filter(exercise, Group == 1), PRE.4)
-LDL_df1b &lt;- pull(filter(exercise, Group == 1), POST.4)
-LDL_df0a &lt;- pull(filter(exercise, Group == 0), PRE.4)
-LDL_df0b &lt;- pull(filter(exercise, Group == 0), POST.4)
-LDL_good &lt;- cbind(LDL_df1a, LDL_df1b, LDL_df0a, LDL_df0b)
-LDL_labels &lt;- list(LDL_df1a = &quot;Baseline&quot;, LDL_df1b = &quot;6-months&quot;, LDL_df0a = &quot;Baseline&quot;, LDL_df0b = &quot;6-months&quot;)
-
-
-boxplot(BMI_good,
+<pre class="r"><code>boxplot(BMI_good,
         names = BMI_labels,
         xlab = &quot;Intervention vs. Control&quot;,
         ylab = &quot;Body Mass Index&quot;, 
@@ -695,7 +671,7 @@ $(document).ready(function () {
 
 </script>
 
-<!---- tabsets ---->
+<!-- tabsets -->
 
 <script>
 $(document).ready(function () {
@@ -709,10 +685,10 @@ $(document).ready(function () {
 });
 </script>
 
-<!---- code folding ---->
+<!-- code folding -->
 
 
-<!---- dynamically load mathjax for compatibility with self-contained ---->
+<!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
     var script = document.createElement("script");

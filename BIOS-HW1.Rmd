@@ -12,7 +12,7 @@ output: html_document
 
 ### Section a
 
-```{r load libraries}
+```{r load libraries, echo = FALSE}
 library(tidyverse)
 library(arsenal)
 library(knitr)
@@ -22,7 +22,7 @@ This is a solution for Problem 1, section a.
 
 There is a top row of text that can be ignored for the purposes of creating a dataframe
 
-```{r import doc}
+```{r import doc, echo = FALSE}
 
 exercise <- read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\\BIOS-HW1\\Exercise.csv", skip = 1)
 
@@ -30,14 +30,14 @@ exercise <- read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\
 
 Change the labels.
 
-```{r labels}
+```{r labels, echo = FALSE}
 
 my_labels <- list(Age = "Age (yrs)", Gender = "Gender", Race = "Race", HTN = "Hypertensive", T2DM = "Type 2 Diabetes", Depression = "Depression", Smokes = "Smoker")
 ```
 
 Clean the output.
 
-```{r clean output}
+```{r clean output, echo = FALSE}
 my_controls <- tableby.control(
                total = FALSE,
                test = FALSE,  # No test p-values yet
@@ -51,7 +51,7 @@ my_controls <- tableby.control(
 
 Categorize the variables.
 
-```{r categories}
+```{r categories, echo = FALSE}
 
 table1 <- exercise %>%
   mutate(Group = factor(Group, labels = c("Intervention","Control"))) %>%
@@ -65,7 +65,7 @@ table1 <- exercise %>%
 
 This is a first table.
 
-```{r solution 1a}
+```{r solution 1a, echo = FALSE}
 solution1a <- tableby(Group ~ Age + Gender + Race + HTN + T2DM + Depression + Smokes, 
                       data = table1, control = my_controls)
 ```

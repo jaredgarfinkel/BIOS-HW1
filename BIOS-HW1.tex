@@ -1,0 +1,612 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={BIOS\_HW\#1},
+            pdfauthor={Jared Garfinkel},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{BIOS\_HW\#1}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Jared Garfinkel}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{9/13/2019}
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{biostatistical-methods-i}{%
+\section{Biostatistical Methods I}\label{biostatistical-methods-i}}
+
+\hypertarget{problem-1}{%
+\subsection{Problem 1}\label{problem-1}}
+
+\hypertarget{section-a}{%
+\subsubsection{Section a}\label{section-a}}
+
+\begin{verbatim}
+## -- Attaching packages ------------------------------------------------------------------------------------ tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.2.1     v purrr   0.3.2
+## v tibble  2.1.3     v dplyr   0.8.3
+## v tidyr   0.8.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.4.0
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts --------------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+This is a solution for Problem 1, section a.
+
+There is a top row of text that can be ignored for the purposes of
+creating a dataframe
+
+Change the labels.
+
+Clean the output.
+
+Categorize the variables.
+
+This is a first table.
+
+This is a solution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(solution1a, }\DataTypeTok{title =} \StringTok{"Demographics and Co-Morbidities"}\NormalTok{, }\DataTypeTok{labelTranslations =}\NormalTok{ my_labels,}\DataTypeTok{text =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Table: Demographics and Co-Morbidities
+## 
+## |                    |   Intervention (N=36)   |     Control (N=36)      |
+## |:-------------------|:-----------------------:|:-----------------------:|
+## |Age (yrs)           |                         |                         |
+## |-  Mean (SD)        |     51.500 (10.809)     |     53.583 (9.581)      |
+## |-  Median (Q1, Q3)  | 51.000 (44.750, 60.250) | 55.500 (47.500, 59.250) |
+## |Gender              |                         |                         |
+## |-  Male             |       16 (44.4%)        |       16 (44.4%)        |
+## |-  Female           |       20 (55.6%)        |       20 (55.6%)        |
+## |Race                |                         |                         |
+## |-  African American |       22 (61.1%)        |       31 (86.1%)        |
+## |-  Hispanic         |       14 (38.9%)        |        5 (13.9%)        |
+## |Hypertensive        |                         |                         |
+## |-  Yes              |       16 (44.4%)        |       14 (38.9%)        |
+## |-  No               |       20 (55.6%)        |       22 (61.1%)        |
+## |Type 2 Diabetes     |                         |                         |
+## |-  Yes              |       17 (47.2%)        |       23 (63.9%)        |
+## |-  No               |       19 (52.8%)        |       13 (36.1%)        |
+## |Depression          |                         |                         |
+## |-  Yes              |       23 (63.9%)        |       26 (72.2%)        |
+## |-  No               |       13 (36.1%)        |       10 (27.8%)        |
+## |Smoker              |                         |                         |
+## |-  Yes              |       31 (86.1%)        |       31 (86.1%)        |
+## |-  No               |        5 (13.9%)        |        5 (13.9%)        |
+\end{verbatim}
+
+\hypertarget{section-1bi}{%
+\subsection{Section 1bi}\label{section-1bi}}
+
+This is a solution for Section 1b.
+
+Start with the labels.
+
+Clean the output.
+
+Use only the variables we are looking at.
+
+Make a table.
+
+Create a dataframe that splits data by factor.
+
+\begin{longtable}[]{@{}lllll@{}}
+\caption{Changes in Metabolic Paramaters}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[b]{0.20\columnwidth}\raggedright
+Intervention\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+Control\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[b]{0.20\columnwidth}\raggedright
+Intervention\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[b]{0.18\columnwidth}\raggedright
+Control\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+Baseline\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+6-months\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+Baseline\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+6-months\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Systolic Blood Pressure (mm Hg)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+133.64 +/- 15.11\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+125.06 +/- 15.44\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+133.47 +/- 15.94\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+130.14 +/- 14.35\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+134 (121.5, 144)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+124 (116.75, 135)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+131 (122.5, 143.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+127.5 (120, 140)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+-8.58 +/- 17.17\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+-3.33 +/- 14.81\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Diastolic Blood Pressure (mm Hg)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+75.44 +/- 9.1\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+74.58 +/- 12.37\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+77.14 +/- 9.66\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+75.69 +/- 7.54\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+74.5 (69, 81)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+74 (65, 80.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+76 (68.75, 85)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+76.5 (69, 82)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+-0.86 +/- 8.3\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+-1.44 +/- 10.11\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Body Mass Index\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+31.97 +/- 6.58\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+31.21 +/- 6.13\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+34.23 +/- 6.16\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+34.51 +/- 5.97\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+29.25 (27.375, 34.1)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+29.15 (26.8, 32.875)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+33.4 (29.6, 37.575)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+33.05 (30.425, 37.55)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+-0.76 +/- 1.44\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+0.28 +/- 0.97\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+HDL Cholesterol (mg/dL)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+50.17 +/- 11.85\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+50.17 +/- 13.07\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+48.33 +/- 13.7\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+45.19 +/- 10.78\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+47.5 (40, 60)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+48.5 (43, 60.25)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+43.5 (39, 54.25)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+43.5 (38, 52)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+0 +/- 8.09\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+-3.14 +/- 6.91\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+LDL Cholesterol (mg/dL)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+102.94 +/- 33.84\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+100.5 +/- 30.39\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+99.83 +/- 29.06\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+93.61 +/- 27.47\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+109 (75.25, 124.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+95 (76.5, 120.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+104 (88.25, 112.25)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+96.5 (77.5, 110.25)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+-2.44 +/- 21.27\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+-6.22 +/- 23.12\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+Blood Glucose Level (mmol/L)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+116.64 +/- 74.91\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+107.14 +/- 38.65\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+128.97 +/- 73.86\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+126.61 +/- 63.96\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+------\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+94 (83.75, 116.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+95.5 (85.25, 129)\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+98 (81.75, 139)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+106.5 (85, 145.75)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.15\columnwidth}\raggedright
+\(\Delta\)\strut
+\end{minipage} & \begin{minipage}[t]{0.20\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+-9.5 +/- 57.36\strut
+\end{minipage} & \begin{minipage}[t]{0.18\columnwidth}\raggedright
+--------\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+-2.36 +/- 51.22\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{problem-1bii}{%
+\section{Problem 1bii}\label{problem-1bii}}
+
+Two boxplots of intervention groups.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(BMI_good,}
+        \DataTypeTok{names =}\NormalTok{ BMI_labels,}
+        \DataTypeTok{xlab =} \StringTok{"Intervention vs. Control"}\NormalTok{,}
+        \DataTypeTok{ylab =} \StringTok{"Body Mass Index"}\NormalTok{, }
+        \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }
+        \DataTypeTok{main =} \StringTok{"Effects of exercise on BMI"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{BIOS-HW1_files/figure-latex/split a big chunk BMI+LDL-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(LDL_good,}
+        \DataTypeTok{names =}\NormalTok{ LDL_labels,}
+        \DataTypeTok{xlab =} \StringTok{"Intervention vs. Control"}\NormalTok{,}
+        \DataTypeTok{ylab =} \StringTok{"LDL Cholesterol (mg/dL)"}\NormalTok{, }
+        \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }
+        \DataTypeTok{main =} \StringTok{"Effects of exercise on LDL"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{BIOS-HW1_files/figure-latex/split a big chunk BMI+LDL-2.pdf}
+
+\hypertarget{section-1biii}{%
+\subsection{Section 1biii}\label{section-1biii}}
+
+These findings indicate that among the intervention and control
+
+groups there were no changes in BMI and LDL. This might be because
+
+of the matching technique used, where participants and non-participants
+
+were matched by gender. A better method may be to match the participants
+
+and non-participants by smoking status, or other health-related
+
+indicators.
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+The probability that a triple test of a fetus with down syndrome is
+positive
+
+is P(+\textbar{}DS) = 0.60.
+
+The probability that a triple test of a fetus that does not have down
+syndrome is positive
+
+is P(+\textbar{}NDS) = 0.05.
+
+The probability of a fetus being born with Down Syndrom is P(DS) = 0.001
+
+What is the probability that a fetus with a positive test result
+actually has Down Syndrome? P(DS\textbar{}+) = ?
+
+P(DS\textbar{}+) = \[P(+|DS)*P(DS) / (P(+|DS)*P(DS)+P(+|NDS)*P(NDS))\]
+
+= \[0.60*0.001 / (0.60*0.001+0.05*(1-0.001))\]
+
+= 0.01
+
+This is called a positive predictive value. Because the positive
+predictive value
+
+of this test is less than two percent, it is very unlikely to be
+accurate.
+
+This might mean doing the test two, three, or more times to achieve a
+reasonable
+
+level of certainty regarding the presence of the condition.
+
+\hypertarget{problem-3}{%
+\section{Problem 3}\label{problem-3}}
+
+The media reported widely on a story about an article titled, ``Habitual
+tea drinking modulates brain efficiency: evidence from brain
+connectivity evaluation'' published in the journal, ``Aging'' based in
+Albany, NY. The study used neuroimaging from subjects split into two
+groups, ``tea drinkers'' and ``non-tea drinkers'' to analyze differences
+in brain structure. Reporting on the findings had some similarities. For
+instance, all the reporting in this analysis promoted the benefits of
+drinking tea for healthy aging and brain structure. Some of the media
+included descriptions of the methods, like the number of participants
+and the thing being studied. There were also references to brain
+structure in all the articles, which was the main topic of the paper.
+One reporter claimed the study took place over three years.
+
+I think the reporting was fairly measured across the board. This is
+reasonable considering it is an exploratory analysis. One thing that I
+found interesting is that the authors used leftward assymetry to measure
+the amount of aging on a brain. One of the main findings of the paper
+was that there was more leftward assymetry in the non-tea drinking
+group. The study was meant to add to the literature suggesting a
+correlation between drinking tea and healthier aging. I think the
+authors accomplished this even though the study size was small (n=36)
+and the results were mixed. While functional brain networks were found
+to be more efficient among ``tea drinkers'', structural brain networks
+were not.
+
+While this is an early look at the brain structure of tea drinkers
+compared to non-tea drinkers, it follows a large amount of literature
+suggesting the health benefits of drinking tea. In fact, the authors of
+this study conducted a longitudinal study of tea drinkers in 2017 that
+had encouraging results. There have also been press releases from
+Harvard University promoting the health benefits of tea on several
+health factors. In the future, studies like this may determine the
+mechanisms by which tea can bolster health. Until then, I think it is
+safe to continue to drink tea, which may even impart a benefit.
+
+\hypertarget{sources}{%
+\subsubsection{Sources:}\label{sources}}
+
+\hypertarget{httpswww.mindbodygreen.comarticlesnew-study-shows-regular-tea-drinkers-have-better-organized-brain-regionsfbclidiwar34q8crryfvod61zpoolk803psg88ponqdedgr8l_jy9cqn8ce-97_dvwq}{%
+\paragraph{\texorpdfstring{1.
+\url{https://www.mindbodygreen.com/articles/new-study-shows-regular-tea-drinkers-have-better-organized-brain-regions?fbclid=IwAR34Q8CrrYFvod61zpOolK803psG88POnQdeDGr8l_jY9CQN8CE-97_DVWQ}}{1. https://www.mindbodygreen.com/articles/new-study-shows-regular-tea-drinkers-have-better-organized-brain-regions?fbclid=IwAR34Q8CrrYFvod61zpOolK803psG88POnQdeDGr8l\_jY9CQN8CE-97\_DVWQ}}\label{httpswww.mindbodygreen.comarticlesnew-study-shows-regular-tea-drinkers-have-better-organized-brain-regionsfbclidiwar34q8crryfvod61zpoolk803psg88ponqdedgr8l_jy9cqn8ce-97_dvwq}}
+
+\hypertarget{httpswww.sciencedaily.comreleases201909190912100945.htm}{%
+\paragraph{\texorpdfstring{2.
+\url{https://www.sciencedaily.com/releases/2019/09/190912100945.htm}}{2. https://www.sciencedaily.com/releases/2019/09/190912100945.htm}}\label{httpswww.sciencedaily.comreleases201909190912100945.htm}}
+
+\hypertarget{httpswww.businessinsider.sgdrinking-tea-could-save-your-brain-from-old-age-decline-nus-led-study-finds}{%
+\paragraph{\texorpdfstring{3.
+\url{https://www.businessinsider.sg/drinking-tea-could-save-your-brain-from-old-age-decline-nus-led-study-finds/}}{3. https://www.businessinsider.sg/drinking-tea-could-save-your-brain-from-old-age-decline-nus-led-study-finds/}}\label{httpswww.businessinsider.sgdrinking-tea-could-save-your-brain-from-old-age-decline-nus-led-study-finds}}
+
+\hypertarget{httpsneurosciencenews.comtea-drinking-brain-health-14889}{%
+\paragraph{\texorpdfstring{4.
+\url{https://neurosciencenews.com/tea-drinking-brain-health-14889/}}{4. https://neurosciencenews.com/tea-drinking-brain-health-14889/}}\label{httpsneurosciencenews.comtea-drinking-brain-health-14889}}
+
+\hypertarget{httpswww.independent.co.uklife-stylehealth-and-familiestea-brain-health-boost-ageing-green-black-oolong-a9107546.html}{%
+\paragraph{\texorpdfstring{5.
+\url{https://www.independent.co.uk/life-style/health-and-families/tea-brain-health-boost-ageing-green-black-oolong-a9107546.html}}{5. https://www.independent.co.uk/life-style/health-and-families/tea-brain-health-boost-ageing-green-black-oolong-a9107546.html}}\label{httpswww.independent.co.uklife-stylehealth-and-familiestea-brain-health-boost-ageing-green-black-oolong-a9107546.html}}
+
+\hypertarget{httpswww.aging-us.comarticle102023text}{%
+\paragraph{\texorpdfstring{6.
+\url{https://www.aging-us.com/article/102023/text}}{6. https://www.aging-us.com/article/102023/text}}\label{httpswww.aging-us.comarticle102023text}}
+
+
+\end{document}

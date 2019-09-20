@@ -292,13 +292,20 @@ LDL_good <- cbind(LDL_df1a, LDL_df1b, LDL_df0a, LDL_df0b)
 LDL_labels <- list(LDL_df1a = "Baseline", LDL_df1b = "6-months", LDL_df0a = "Baseline", LDL_df0b = "6-months")
 ```
 
-```{r split a big chunk BMI+LDL}
+This is a boxplot of BMI with the intervention group on the left and the control on the right. The control started off higher, maybe since it is a self selected participation in exercise. 
+
+```{r split a big chunk BMI}
 boxplot(BMI_good,
         names = BMI_labels,
         xlab = "Intervention vs. Control",
         ylab = "Body Mass Index", 
         col = c("blue","red"), 
         main = "Effects of exercise on BMI")
+```
+
+This is a boxplot of LDL with the intervention group on the left and the control on the right.
+
+```{r split a big chunk LDL}
 boxplot(LDL_good,
         names = LDL_labels,
         xlab = "Intervention vs. Control",
@@ -329,7 +336,11 @@ groups there were no changes in BMI and LDL. This might be because
 
 of the matching technique used, where participants and non-participants
 
-were matched by gender. A better method may be to match the participants
+were matched by gender. In addition, the intervention group was self selected,
+
+so they may have already been inclined to exercise or live a healthier lifestyle.
+
+A better method may be to match the participants
 
 and non-participants by smoking status, or other health-related
 

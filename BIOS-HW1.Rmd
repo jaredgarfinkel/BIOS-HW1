@@ -49,7 +49,7 @@ my_controls <- tableby.control(
                countpct = "N (%)"))
 ```
 
-I found a function called mutate from recitation that is useful for showing categories.
+Categorize the variables.
 
 ```{r categories}
 
@@ -186,12 +186,9 @@ kable(list(table1, table2))
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
-
 new_col1 <- tibble(pull(new_df1,POST) - pull(new_df1,PRE), pull(new_df1,POST.1) - pull(new_df1,PRE.1), pull(new_df1, POST.2) - pull(new_df1,PRE.2), pull(new_df1,POST.3) - pull(new_df1, PRE.3), pull(new_df1,POST.4) - pull(new_df1,PRE.4), pull(new_df1,POST.5) - pull(new_df1,PRE.5))
-
 colnames(new_col1) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
 new_col2 <- tibble(pull(new_df2,POST) - pull(new_df2,PRE), pull(new_df2,POST.1) - pull(new_df2,PRE.1), pull(new_df2, POST.2) - pull(new_df2,PRE.2), pull(new_df2,POST.3) - pull(new_df2, PRE.3), pull(new_df2,POST.4) - pull(new_df2,PRE.4), pull(new_df2,POST.5) - pull(new_df2,PRE.5))
-
 colnames(new_col2) <- c("Sys_d", "Dia_d", "BMI_d", "HDL_d", "LDL_d", "Glu_d")
 ```
 

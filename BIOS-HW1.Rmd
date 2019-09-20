@@ -24,7 +24,7 @@ There is a top row of text that can be ignored for the purposes of creating a da
 
 ```{r import doc, echo = FALSE}
 
-exercise <- read.csv("C:\\Users\\jared\\OneDrive\\Fall 2019\\Biostatistics\\HW1\\BIOS-HW1\\Exercise.csv", skip = 1)
+exercise <- read.csv("./Exercise.csv", skip = 1)
 
 ```
 
@@ -182,7 +182,7 @@ table2 <- summary(groupsys2, title="Systolic Blood Pressure 6-months", labelTran
 kable(list(table1, table2))
 ```
 
-```{r new dataframes}
+```{r new dataframes, echo = FALSE}
 new_df <- select(exercise,Group,PRE,POST,PRE.1,POST.1,PRE.2,POST.2,PRE.3,POST.3,PRE.4,POST.4,PRE.5,POST.5)
 new_df1 <- filter(new_df, Group == 1)
 new_df2 <- filter(new_df, Group == 0)
@@ -220,7 +220,7 @@ $\Delta$ | -------- | `r round(mean(pull(new_col1, Glu_d)), digits = 2)` +/- `r 
 
 Two boxplots of intervention groups.
 
-```{r graphics}
+```{r graphics, echo = FALSE}
 library(ggplot2)
 ```
 
